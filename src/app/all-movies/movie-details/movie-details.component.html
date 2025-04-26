@@ -1,0 +1,185 @@
+@if (isLoading) {
+  <div class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+} @else if (error) {
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+} @else if (!movie) {
+  <div class="alert alert-info" role="alert">
+    No details available.
+  </div>
+} @else {
+  <div class="details-container text-white">
+    <div class="row">
+      <!-- Poster/Profile Image -->
+      <div class="col-md-4">
+        @if (movie.poster_path || movie.profile_path) {
+          <img
+            [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path ?? movie.profile_path)"
+            class="img-fluid rounded"
+            [alt]="( movie.name ?? movie.title ?? 'Media') + ' image'"
+            loading="lazy">
+        } @else {
+          <div class="placeholder-image bg-secondary d-flex align-items-center justify-content-center rounded" style="height: 300px;">
+            <span class="text-white">No image available</span>
+          </div>
+        }
+      </div>
+
+      <!-- Information Section -->
+      <div class="col-md-8">
+        <!-- Movie Type -->
+        @if (type === 'movie') {
+          <h2 class="text-white">{{  movie.title ?? 'Untitled Movie' }}</h2>
+          @if (movie.tagline) {
+            <p class="tagline text-muted">{{ movie.tagline }}</p>
+          }
+          @if (movie.overview) {
+            <p class="overview">{{ movie.overview }}</p>
+          }
+          @if (movie.status) {
+            <p><strong>Status:</strong> {{ movie.status }}</p>
+          }
+          @if (movie.release_date) {
+            <p><strong>Release Date:</strong> {{ movie.release_date | date }}</p>
+          }
+          @if (movie.runtime) {
+            <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
+          }
+
+          <!-- Genres -->
+          @if (movie.genres && movie.genres.length > 0) {
+            <div class="genres mb-3">
+              @for (genre of movie.genres; track genre.id) {
+                <span class="badge bg-secondary me-1">{{ genre.name }}</span>
+              }
+            </div>
+          }
+
+          <!-- Ratings -->
+          @if (movie.vote_average !== undefined && movie.vote_count !== undefined) {
+            <p><strong>Rating:</strong> ⭐ {{ movie.vote_average }} / 10 ({{ movie.vote_count }} votes)</p>
+          }
+
+          <!-- Movie Link -->
+          @if (movie.homepage) {
+            <a [href]="movie.homepage" class="btn btn-primary" target="_blank">Visit Official Site</a>
+          }
+
+          <!-- Production Companies -->
+          @if (movie.production_companies && movie.production_companies.length > 0) {
+            <div class="production-companies mt-3">
+              <h5>Production Companies:</h5>
+              <div class="d-flex flex-wrap">
+                @for (company of movie.production_companies; track company.id) {
+                  <span class="badge bg-light text-dark me-1 mb-1">{{ company.name }}</span>
+                }
+              </div>
+            </div>
+          }
+        }
+
+        <!-- TV Show Type -->
+        @if (type === 'tv') {
+          <h2 class="text-white">{{ movie.name ?? 'Untitled TV Show' }}</h2>
+          @if (movie.tagline) {
+            <p class="tagline text-muted">{{ movie.tagline }}</p>
+          }
+          @if (movie.overview) {
+            <p class="overview">{{ movie.overview }}</p>
+          }
+          @if (movie.status) {
+            <p><strong>Status:</strong> {{ movie.status }}</p>
+          }
+          @if (movie.first_air_date) {
+            <p><strong>First Air Date:</strong> {{ movie.first_air_date | date }}</p>
+          }
+
+          @if (movie.number_of_seasons !== undefined) {
+            <p><strong>Number of Seasons:</strong> {{ movie.number_of_seasons }}</p>
+          }
+          @if (movie.number_of_episodes !== undefined) {
+            <p><strong>Number of Episodes:</strong> {{ movie.number_of_episodes }}</p>
+          }
+
+          <!-- Genres -->
+          @if (movie.genres && movie.genres.length > 0) {
+            <div class="genres mb-3">
+              @for (genre of movie.genres; track genre.id) {
+                <span class="badge bg-secondary me-1">{{ genre.name }}</span>
+              }
+            </div>
+          }
+
+          <!-- Ratings -->
+          @if (movie.vote_average !== undefined && movie.vote_count !== undefined) {
+            <p><strong>Rating:</strong> ⭐ {{ movie.vote_average }} / 10 ({{ movie.vote_count }} votes)</p>
+          }
+
+          <!-- TV Show Link -->
+          @if (movie.homepage) {
+            <a [href]="movie.homepage" class="btn btn-primary" target="_blank">Visit Official Site</a>
+          }
+
+          <!-- Networks -->
+          @if (movie.networks && movie.networks.length > 0) {
+            <div class="networks mt-3">
+              <h5>Networks:</h5>
+              <div class="d-flex flex-wrap">
+                @for (network of movie.networks; track network.id) {
+                  <span class="badge bg-light text-dark me-1 mb-1">{{ network.name }}</span>
+                }
+              </div>
+            </div>
+          }
+        }
+
+        <!-- Person Type -->
+        @if (type === 'person') {
+          <h2 class="text-white">{{ movie.name ?? 'Unknown Person' }}</h2>
+          @if (movie.known_for_department) {
+            <p><strong>Known For:</strong> {{ movie.known_for_department }}</p>
+          }
+          @if (movie.biography) {
+            <p class="biography">{{ movie.biography }}</p>
+          }
+          @if (movie.birthday) {
+            <p><strong>Birthday:</strong> {{ movie.birthday | date }}</p>
+          }
+          @if (movie.deathday) {
+            <p><strong>Deathday:</strong> {{ movie.deathday | date }}</p>
+          }
+          @if (movie.place_of_birth) {
+            <p><strong>Place of Birth:</strong> {{ movie.place_of_birth }}</p>
+          }
+          @if (movie.popularity !== undefined) {
+            <p><strong>Popularity:</strong> {{ movie.popularity }}</p>
+          }
+
+          <!-- External Links -->
+          @if (movie.homepage) {
+            <a [href]="movie.homepage" class="btn btn-primary me-2" target="_blank">Official Website</a>
+          }
+          @if (movie.imdb_id) {
+            <a [href]="'https://www.imdb.com/name/' + movie.imdb_id" class="btn btn-warning" target="_blank">IMDb Profile</a>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Backdrop Image (only for movies and TV shows) -->
+    @if ((type === 'movie' || type === 'tv') && movie.backdrop_path) {
+      <div class="backdrop mt-4">
+        <img
+          [src]="'https://image.tmdb.org/t/p/w500' + movie.backdrop_path"
+          class="img-fluid"
+          [alt]="( movie.name ?? 'Media') + ' backdrop'"
+          loading="lazy">
+      </div>
+    }
+  </div>
+}
