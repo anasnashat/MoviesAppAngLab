@@ -1,0 +1,21 @@
+@if (isLoading) {
+  <div class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+} @else if (error) {
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+} @else if (people.length === 0) {
+  <div class="alert alert-info" role="alert">
+    No people found.
+  </div>
+} @else {
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    @for (person of people; track person.id) {
+      <app-movie-card [movie]="person" [type]="'person'"></app-movie-card>
+    }
+  </div>
+}
