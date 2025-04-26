@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MoviesService} from '../../movies.service';
 import {ActivatedRoute} from '@angular/router';
-import {DatePipe, NgTemplateOutlet} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {Movie} from '../../models/movie.model';
 import {Subscription} from 'rxjs';
 
@@ -10,7 +10,6 @@ import {Subscription} from 'rxjs';
   standalone: true,
   imports: [
     DatePipe,
-    NgTemplateOutlet
   ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'

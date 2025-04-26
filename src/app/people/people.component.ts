@@ -1,7 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MoviesService} from '../movies.service';
-import {DecimalPipe} from '@angular/common';
-import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MovieCardComponent} from '../all-movies/movie-card/movie-card.component';
 import {Movie} from '../models/movie.model';
 import {Subscription} from 'rxjs';
@@ -11,9 +9,7 @@ import {Subscription} from 'rxjs';
   standalone: true,
   imports: [
     MovieCardComponent,
-    RouterLink,
-    RouterLinkActive,
-    DecimalPipe
+
   ],
   templateUrl: './people.component.html',
   styleUrl: './people.component.css'
