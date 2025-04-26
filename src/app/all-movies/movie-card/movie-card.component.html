@@ -1,0 +1,58 @@
+<div class="col">
+  <div class="card mb-3 h-100">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img
+          [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path ?? movie.profile_path ?? '')"
+          class="img-fluid rounded-start"
+          [alt]="(movie.name ?? movie.title ?? 'Movie') + ' poster'"
+          loading="lazy"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title d-flex justify-content-between align-items-center">
+            {{ movie.name ?? movie.title ?? 'Untitled' }}
+            @if (movie.media_type) {
+              <span class="badge bg-success text-uppercase">{{ movie.media_type }}</span>
+            }
+          </h5>
+          <p class="card-text">
+            <small class="text-muted">Release Date: {{ movie.first_air_date ?? movie.release_date ?? 'Unknown' }}</small>
+          </p>
+          @if (movie.overview) {
+            <p class="card-text text-truncate" style="max-height: 100px; overflow: hidden;">
+              {{ movie.overview }}
+            </p>
+          }
+          @if (movie.vote_average !== undefined) {
+            <p class="card-text mb-1">
+              <strong>Rating:</strong> ⭐ {{ movie.vote_average }} / 10
+            </p>
+          }
+          <p class="card-text d-flex justify-content-lg-evenly">
+            @if (movie.popularity !== undefined) {
+              <span class="badge bg-primary mt-2">Popularity: {{ movie.popularity | number:'1.0-1' }}</span>
+            }
+            @if (movie.vote_count !== undefined) {
+              <span class="badge bg-warning text-dark mt-2">Votes: {{ movie.vote_count }}</span>
+            }
+            @if (movie.original_language) {
+              <span class="badge bg-secondary mt-2">Language: {{ movie.original_language }}</span>
+            }
+          </p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a
+          class="btn btn-primary"
+          [routerLink]="['/all/movie/', movie.id, type || movie.media_type || 'movie']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          View Details
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
